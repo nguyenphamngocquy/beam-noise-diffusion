@@ -1,0 +1,9 @@
+diffusers
+transformers
+accelerate
+safetensors
+open_clip_torch
+pandas
+pillow
+tqdm
+xformers
