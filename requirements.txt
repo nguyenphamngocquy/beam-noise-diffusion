@@ -2,6 +2,7 @@ diffusers
 transformers
 accelerate
 safetensors
+huggingface_hub
 open_clip_torch
 pandas
 pillow
