@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import torch
+import torch, os
 from diffusers import DPMSolverMultistepScheduler, StableDiffusionPipeline
 
 
@@ -23,6 +23,7 @@ def load_sd_pipeline(cfg: dict, cache_dir: str | Path):
         safety_checker=None,
         requires_safety_checker=False,
         cache_dir=str(cache_dir),
+        token=os.environ.get("HF_TOKEN"),
     )
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe = pipe.to("cuda")
