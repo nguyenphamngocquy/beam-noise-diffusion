@@ -1,5 +1,5 @@
 {
-  "name": "bnd_full",
+  "name": "bnd",
   "model_id": "runwayml/stable-diffusion-v1-5",
   "resolution": 512,
   "guidance_scale": 7.5,
@@ -11,7 +11,7 @@
   "R": 3,
   "a_r": [4, 4, 4],
   "m_r": [4, 2, 1],
-  "q_r": [8, 4, 2],
+  "q_r": [8, 6, 4],
   "k_r": [6, 4, 3],
   "gamma": 0.5,
   "T_preview": 4,
@@ -21,6 +21,5 @@
   "epsilon": 0.001,
   "patience": 2,
   "negative_prompt": "low quality, blurry, distorted, deformed, bad anatomy, extra limbs, text, watermark, signature",
-  "perturbation_mode": "prior_mix",
-  "alpha_0": 0.3
+  "alpha_0": 0.4
 }

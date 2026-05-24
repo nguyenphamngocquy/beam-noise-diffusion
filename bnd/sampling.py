@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import torch, os
+import os
+
+import torch
 from diffusers import DPMSolverMultistepScheduler, StableDiffusionPipeline
 
 
@@ -77,15 +79,10 @@ def make_latents(batch_size: int, seed: int, cfg: dict):
 def make_proposals(base_latents, m: int, round_idx: int, cfg: dict, generator):
     """Create local proposal latents around the active beam."""
     proposals = []
-    mode = cfg.get("perturbation_mode", "additive")
 
-    if mode == "prior_mix":
-        # prior_mix keeps proposals closer to the N(0, I) initial-noise prior.
-        alpha = cfg["alpha_0"] * (cfg["gamma"] ** round_idx)
-        alpha = max(0.0, min(float(alpha), 0.999))
-        keep = (1.0 - alpha**2) ** 0.5
-    else:
-        sigma = cfg["sigma_0"] * (cfg["gamma"] ** round_idx)
+    alpha = cfg["alpha_0"] * (cfg["gamma"] ** round_idx)
+    alpha = max(0.0, min(float(alpha), 0.999))
+    keep = (1.0 - alpha**2) ** 0.5
 
     for i in range(base_latents.shape[0]):
         base = base_latents[i : i + 1]
@@ -96,7 +93,7 @@ def make_proposals(base_latents, m: int, round_idx: int, cfg: dict, generator):
             dtype=torch.float16,
         )
         base_rep = base.repeat(m, 1, 1, 1)
-        z_prop = keep * base_rep + alpha * noise if mode == "prior_mix" else base_rep + sigma * noise
+        z_prop = keep * base_rep + alpha * noise
         proposals.append(z_prop)
 
     return torch.cat(proposals, dim=0)

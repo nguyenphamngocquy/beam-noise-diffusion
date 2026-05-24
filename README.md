@@ -5,7 +5,7 @@ This repository contains experiments for Beam Noise Diffusion, a beam-based late
 ## Structure
 
 - `bnd/`: reusable Python package for config validation, sampling, scoring, experiment I/O, and BND logic.
-- `configs/`: experiment configurations (`bnd_light.json`, `bnd_full.json`).
+- `configs/`: experiment configurations (`bnd_light.json`, `bnd.json`).
 - `prompts/`: prompt sets.
 - `notebooks/run_bnd.ipynb`: Colab entrypoint for running the experiments.
 - `requirements.txt`: Python dependencies.
@@ -24,6 +24,6 @@ Generated artifacts are intentionally not part of the code tree. In Colab, the n
 1. Open `notebooks/run_bnd.ipynb` from this repository.
 2. Run all cells.
 3. Set `CONFIG_NAME` to `bnd_light` for quick checks or T4 runs.
-4. Set `CONFIG_NAME` to `bnd_full` for A100/full experiments.
+4. Set `CONFIG_NAME` to `bnd` for A100/full experiments.
 
 The notebook installs dependencies from the cloned repository's `requirements.txt`.

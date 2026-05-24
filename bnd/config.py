@@ -17,7 +17,7 @@ def load_config(root: str | Path, config_name: str) -> dict[str, Any]:
     return cfg
 
 
-def load_prompts(root: str | Path, filename: str = "prompts_30.json") -> list[dict[str, Any]]:
+def load_prompts(root: str | Path, filename: str = "prompts_50.json") -> list[dict[str, Any]]:
     prompts = load_json(Path(root) / "prompts" / filename)
     if not isinstance(prompts, list) or not prompts:
         raise ValueError("Prompt file must contain a non-empty list")
@@ -105,16 +105,7 @@ def validate_config(cfg: dict[str, Any]) -> None:
             raise ValueError(f"k_r[{r}] should be >= b for final re-ranking")
         prev_k = cfg["k_r"][r]
 
-    mode = cfg.get("perturbation_mode", "additive")
-    if mode not in {"additive", "prior_mix"}:
-        raise ValueError("perturbation_mode must be either 'additive' or 'prior_mix'")
-    if mode == "prior_mix":
-        if "alpha_0" not in cfg:
-            raise ValueError("alpha_0 is required when perturbation_mode='prior_mix'")
-        if not (0 < float(cfg["alpha_0"]) < 1):
-            raise ValueError("alpha_0 should be in (0, 1)")
-    if mode == "additive":
-        if "sigma_0" not in cfg:
-            raise ValueError("sigma_0 is required when perturbation_mode='additive'")
-        if float(cfg["sigma_0"]) <= 0:
-            raise ValueError("sigma_0 should be > 0")
+    if "alpha_0" not in cfg:
+        raise ValueError("alpha_0 must be provided for prior_mix proposal generation")
+    if not (0 < float(cfg["alpha_0"]) < 1):
+        raise ValueError("alpha_0 should be in (0, 1)")
