@@ -45,8 +45,21 @@ def load_json(path: str | Path) -> Any:
         return json.load(f)
 
 
-def already_done(storage_root: str | Path, run_name: str, method: str, prompt_id: str) -> bool:
-    return result_path(storage_root, run_name, method, prompt_id).exists()
+def already_done(
+    storage_root: str | Path,
+    run_name: str,
+    method: str,
+    prompt_id: str,
+    cfg: dict[str, Any] | None = None,
+) -> bool:
+    path = result_path(storage_root, run_name, method, prompt_id)
+    if not path.exists():
+        return False
+    if cfg is None:
+        return True
+
+    data = load_json(path)
+    return data.get("config") == cfg
 
 
 def summarize_results(storage_root: str | Path, run_name: str, methods: list[str] | None = None):

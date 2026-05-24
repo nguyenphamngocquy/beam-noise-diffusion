@@ -77,7 +77,7 @@ def run_random_baseline(prompt_item: dict, cfg: dict, pipe, scorer, root: str | 
     prompt_id = prompt_item["id"]
     prompt = prompt_item["prompt"]
 
-    if already_done(root, run_name, method, prompt_id):
+    if already_done(root, run_name, method, prompt_id, cfg):
         print(f"[SKIP] {method} {prompt_id}")
         return
 
@@ -112,7 +112,7 @@ def run_best_of_n(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, 
     prompt_id = prompt_item["id"]
     prompt = prompt_item["prompt"]
 
-    if already_done(root, run_name, method, prompt_id):
+    if already_done(root, run_name, method, prompt_id, cfg):
         print(f"[SKIP] {method} {prompt_id}")
         return
 
@@ -167,7 +167,7 @@ def run_monte_carlo(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path
     prompt_id = prompt_item["id"]
     prompt = prompt_item["prompt"]
 
-    if already_done(root, run_name, method, prompt_id):
+    if already_done(root, run_name, method, prompt_id, cfg):
         print(f"[SKIP] {method} {prompt_id}")
         return
 
@@ -224,7 +224,7 @@ def _run_bnd_core(
     prompt_id = prompt_item["id"]
     prompt = prompt_item["prompt"]
 
-    if already_done(root, run_name, method, prompt_id):
+    if already_done(root, run_name, method, prompt_id, cfg):
         print(f"[SKIP] {method} {prompt_id}")
         return
 
