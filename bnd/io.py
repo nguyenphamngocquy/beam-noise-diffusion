@@ -62,7 +62,12 @@ def already_done(
     return data.get("config") == cfg
 
 
-def summarize_results(storage_root: str | Path, run_name: str, methods: list[str] | None = None):
+def summarize_results(
+    storage_root: str | Path,
+    run_name: str,
+    methods: list[str] | None = None,
+    output_prefix: str = "",
+):
     storage_root = Path(storage_root)
     methods = methods or METHODS
     rows = []
@@ -87,7 +92,7 @@ def summarize_results(storage_root: str | Path, run_name: str, methods: list[str
     df = pd.DataFrame(rows)
     summary_dir = storage_root / "outputs" / "summary" / run_name
     summary_dir.mkdir(parents=True, exist_ok=True)
-    df.to_csv(summary_dir / "results_all.csv", index=False)
+    df.to_csv(summary_dir / f"{output_prefix}results_all.csv", index=False)
 
     if df.empty:
         return df, pd.DataFrame(), pd.DataFrame()
@@ -112,6 +117,6 @@ def summarize_results(storage_root: str | Path, run_name: str, methods: list[str
         .reset_index()
     )
 
-    method_summary.to_csv(summary_dir / "summary_by_method.csv", index=False)
-    group_summary.to_csv(summary_dir / "summary_by_group.csv", index=False)
+    method_summary.to_csv(summary_dir / f"{output_prefix}summary_by_method.csv", index=False)
+    group_summary.to_csv(summary_dir / f"{output_prefix}summary_by_group.csv", index=False)
     return df, method_summary, group_summary
