@@ -23,20 +23,6 @@ ENV/
 
 # Runtime cache: keep folder placeholders, ignore downloaded model files
 cache/*
-!cache/.gitkeep
-!cache/hf_cache/
-cache/hf_cache/*
-!cache/hf_cache/.gitkeep
 
 # Experiment outputs: keep folder placeholders, ignore generated artifacts
 outputs/*
-!outputs/.gitkeep
-!outputs/images/
-outputs/images/*
-!outputs/images/.gitkeep
-!outputs/results/
-outputs/results/*
-!outputs/results/.gitkeep
-!outputs/summary/
-outputs/summary/*
-!outputs/summary/.gitkeep
