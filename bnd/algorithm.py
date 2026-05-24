@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import time
 from pathlib import Path
 from typing import Any
@@ -44,6 +45,32 @@ def score_latents(pipe, scorer, prompt: str, latents, cfg: dict, num_steps: int,
     return results
 
 
+def deduplicate_candidates(candidates: list[dict[str, Any]], atol: float = 1e-6) -> list[dict[str, Any]]:
+    """Remove exact or near-exact duplicate latent candidates."""
+    unique = []
+
+    for cand in candidates:
+        z = cand["latent"]
+        if not any(torch.allclose(z, u["latent"], atol=atol, rtol=0) for u in unique):
+            unique.append(cand)
+
+    return unique
+
+
+def _round_cfg(cfg: dict, rounds: int) -> dict:
+    """Return a copy of cfg using only the first `rounds` refinement rounds."""
+    if rounds < 0:
+        raise ValueError("rounds must be non-negative")
+    if rounds > len(cfg["a_r"]):
+        raise ValueError(f"rounds={rounds} exceeds configured rounds={len(cfg['a_r'])}")
+
+    out = copy.deepcopy(cfg)
+    out["R"] = rounds
+    for key in ["a_r", "m_r", "q_r", "k_r"]:
+        out[key] = out[key][:rounds]
+    return out
+
+
 def run_random_baseline(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_name: str):
     """Generate one image from one random latent and score it."""
     method = "random"
@@ -79,7 +106,7 @@ def run_random_baseline(prompt_item: dict, cfg: dict, pipe, scorer, root: str | 
     print(f"[DONE] {method} {prompt_id} score={score:.4f}")
 
 
-def run_best_of_n(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_name: str, n: int = 8):
+def run_best_of_n(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_name: str, n: int):
     """Best-of-N baseline: full-sample N independent latents and keep the best CLIP score."""
     method = f"best_of_{n}"
     prompt_id = prompt_item["id"]
@@ -97,7 +124,6 @@ def run_best_of_n(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, 
     best_score = None
     best_seed = None
 
-    # Each candidate receives the same full sampling budget as the final output.
     for i in range(n):
         seed = seed_base + i
         latents = make_latents(batch_size=1, seed=seed, cfg=cfg)
@@ -149,18 +175,15 @@ def run_monte_carlo(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path
     candidates = []
     seed_base = cfg["seed_base"] + int(prompt_id) * 1000
 
-    # Stage 1: sample random latents in batches and keep only preview top-k.
     for u in range(cfg["B_init"]):
         z = make_latents(cfg["n_batch"], seed=seed_base + u, cfg=cfg)
         scored = score_latents(pipe, scorer, prompt, z, cfg, cfg["T_preview"])
         candidates = top_k_candidates(candidates + scored, cfg["k1"])
 
-    # Stage 2: re-score the preview winners with the stronger mid budget.
     z0 = candidates_to_latents(candidates)
     medium = score_latents(pipe, scorer, prompt, z0, cfg, cfg["T_mid"])
     medium = top_k_candidates(medium, cfg["k1"])
 
-    # Stage 3: full sample a small final set and choose by full CLIP score.
     final_candidates = top_k_candidates(medium, cfg["b"])
     z_final = candidates_to_latents(final_candidates)
 
@@ -186,30 +209,18 @@ def run_monte_carlo(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path
     save_json(result_path(root, run_name, method, prompt_id), result)
     print(f"[DONE] {method} {prompt_id} score={scores[best_idx]:.4f}")
 
-def deduplicate_candidates(candidates: list[dict[str, Any]], atol: float = 1e-6) -> list[dict[str, Any]]:
-    """
-    Remove duplicated latent candidates.
-    Each candidate is a dict: {"latent": tensor cpu, "score": float}
-    """
-    unique = []
 
-    for cand in candidates:
-        z = cand["latent"]
-
-        is_duplicate = False
-        for u in unique:
-            if torch.allclose(z, u["latent"], atol=atol, rtol=0):
-                is_duplicate = True
-                break
-
-        if not is_duplicate:
-            unique.append(cand)
-
-    return unique
-
-def run_bnd(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_name: str):
-    """Run Beam Noise Diffusion for one prompt."""
-    method = "bnd"
+def _run_bnd_core(
+    prompt_item: dict,
+    cfg: dict,
+    pipe,
+    scorer,
+    root: str | Path,
+    run_name: str,
+    method: str,
+    full_rerank: bool,
+):
+    """Shared BND implementation used by the main method and ablation variants."""
     prompt_id = prompt_item["id"]
     prompt = prompt_item["prompt"]
 
@@ -231,8 +242,6 @@ def run_bnd(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_na
     z0 = candidates_to_latents(candidates)
     beam = score_latents(pipe, scorer, prompt, z0, cfg, cfg["T_mid"])
     beam = top_k_candidates(beam, cfg["k1"])
-    # Preserve the best initialization latents as anchors. They are used as
-    # fallback candidates, not as extra final-sampling budget.
     anchor_beam = top_k_candidates(beam, cfg["b"])
 
     s_best = max(c["score"] for c in beam)
@@ -240,7 +249,7 @@ def run_bnd(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_na
     stopped_round = cfg["R"]
     refinement_trace = []
 
-    # Stage 2: refine active beam latents, but use preview scores only as a filter.
+    # Stage 2: beam-based latent refinement. Skipped automatically when R = 0.
     for r in range(cfg["R"]):
         active = top_k_candidates(beam, cfg["a_r"][r])
         active_latents = candidates_to_latents(active)
@@ -248,7 +257,7 @@ def run_bnd(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_na
         gen = torch.Generator(device="cuda").manual_seed(seed_base + 10000 + r)
         proposals = make_proposals(active_latents, cfg["m_r"][r], r, cfg, gen)
 
-        # Preview scoring is cheap and only selects which proposals get mid scoring.
+        # Preview scores only filter which proposals receive the mid-level budget.
         prev_scored = score_latents(pipe, scorer, prompt, proposals, cfg, cfg["T_preview"])
         q_prev = top_k_candidates(prev_scored, cfg["q_r"][r])
 
@@ -284,30 +293,44 @@ def run_bnd(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_na
             stopped_round = r + 1
             break
 
-    # Stage 3: full sampling and final re-ranking.
     final_pool = deduplicate_candidates(beam + anchor_beam)
-    final_candidates = top_k_candidates(final_pool, cfg["b"])
-    z_final = candidates_to_latents(final_candidates)
 
-    images = sample_images_from_latents(pipe, prompt, z_final, cfg, cfg["T_full"])
-    scores = scorer.score_images(images, prompt)
-    best_idx = int(max(range(len(scores)), key=lambda i: scores[i]))
-
-    out_img = image_path(root, run_name, method, prompt_id)
-    images[best_idx].save(out_img)
+    if full_rerank:
+        # Full sampling and final re-ranking over exactly b final candidates.
+        final_candidates = top_k_candidates(final_pool, cfg["b"])
+        z_final = candidates_to_latents(final_candidates)
+        images = sample_images_from_latents(pipe, prompt, z_final, cfg, cfg["T_full"])
+        scores = scorer.score_images(images, prompt)
+        best_idx = int(max(range(len(scores)), key=lambda i: scores[i]))
+        out_img = image_path(root, run_name, method, prompt_id)
+        images[best_idx].save(out_img)
+        final_score = float(scores[best_idx])
+        all_scores = [float(s) for s in scores]
+    else:
+        # No full rerank: choose the best mid-score latent and save a T_mid image.
+        final_candidates = top_k_candidates(final_pool, 1)
+        z_final = candidates_to_latents(final_candidates)
+        images = sample_images_from_latents(pipe, prompt, z_final, cfg, cfg["T_mid"])
+        scores = scorer.score_images(images, prompt)
+        out_img = image_path(root, run_name, method, prompt_id)
+        images[0].save(out_img)
+        final_score = float(scores[0])
+        all_scores = [float(scores[0])]
 
     result = {
         "prompt_id": prompt_id,
         "prompt": prompt,
         "group": prompt_item.get("group"),
         "method": method,
-        "score": float(scores[best_idx]),
-        "all_final_scores": [float(s) for s in scores],
+        "score": final_score,
+        "all_final_scores": all_scores,
         "final_mid_scores": [float(c["score"]) for c in final_candidates],
+        "full_rerank": bool(full_rerank),
         "num_final_candidates": len(final_candidates),
         "num_anchor_candidates": len(anchor_beam),
         "best_mid_score": float(s_best),
         "stopped_round": int(stopped_round),
+        "refinement_rounds": int(cfg["R"]),
         "refinement_trace": refinement_trace,
         "runtime_sec": time.time() - start_time,
         "gpu": get_gpu_name(),
@@ -315,4 +338,38 @@ def run_bnd(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_na
         "config": cfg,
     }
     save_json(result_path(root, run_name, method, prompt_id), result)
-    print(f"[DONE] {method} {prompt_id} score={scores[best_idx]:.4f}")
+    print(f"[DONE] {method} {prompt_id} score={final_score:.4f}")
+
+
+def run_bnd(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_name: str):
+    """Run the main BND method with refinement and full re-ranking."""
+    return _run_bnd_core(prompt_item, cfg, pipe, scorer, root, run_name, method="bnd", full_rerank=True)
+
+
+def run_bnd_no_full_rerank(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_name: str):
+    """Ablation: run BND but select the final output from the medium-score beam."""
+    return _run_bnd_core(
+        prompt_item,
+        cfg,
+        pipe,
+        scorer,
+        root,
+        run_name,
+        method="bnd_no_full_rerank",
+        full_rerank=False,
+    )
+
+
+def run_bnd_rounds(prompt_item: dict, cfg: dict, pipe, scorer, root: str | Path, run_name: str, rounds: int):
+    """Ablation: run BND with a specified number of refinement rounds."""
+    round_cfg = _round_cfg(cfg, rounds)
+    return _run_bnd_core(
+        prompt_item,
+        round_cfg,
+        pipe,
+        scorer,
+        root,
+        run_name,
+        method=f"bnd_R{rounds}",
+        full_rerank=True,
+    )

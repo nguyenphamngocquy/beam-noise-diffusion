@@ -27,3 +27,11 @@ Generated artifacts are intentionally not part of the code tree. In Colab, the n
 4. Set `CONFIG_NAME` to `bnd` for A100/full experiments.
 
 The notebook installs dependencies from the cloned repository's `requirements.txt`.
+
+## Qualitative Comparison
+
+After running the selected methods, the notebook can build qualitative grids under:
+
+`outputs/summary/<run_name>/qualitative/`
+
+Each grid compares the same prompts across methods. By default, it selects three complete prompts from each prompt group and uses the same method list as the quantitative summary.
