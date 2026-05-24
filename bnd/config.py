@@ -17,7 +17,7 @@ def load_config(root: str | Path, config_name: str) -> dict[str, Any]:
     return cfg
 
 
-def load_prompts(root: str | Path, filename: str = "prompts_50.json") -> list[dict[str, Any]]:
+def load_prompts(root: str | Path, filename: str = "prompts_100.json") -> list[dict[str, Any]]:
     prompts = load_json(Path(root) / "prompts" / filename)
     if not isinstance(prompts, list) or not prompts:
         raise ValueError("Prompt file must contain a non-empty list")

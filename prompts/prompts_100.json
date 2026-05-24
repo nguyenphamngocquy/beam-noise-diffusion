@@ -1,0 +1,502 @@
+[
+  {
+    "id": "0001",
+    "group": "simple",
+    "prompt": "a photo of a golden retriever sitting in a park"
+  },
+  {
+    "id": "0002",
+    "group": "simple",
+    "prompt": "a red apple on a wooden table"
+  },
+  {
+    "id": "0003",
+    "group": "simple",
+    "prompt": "a small boat floating on a calm lake"
+  },
+  {
+    "id": "0004",
+    "group": "simple",
+    "prompt": "a white cat sleeping on a sofa"
+  },
+  {
+    "id": "0005",
+    "group": "simple",
+    "prompt": "a mountain landscape during sunset"
+  },
+  {
+    "id": "0006",
+    "group": "simple",
+    "prompt": "a cup of coffee next to a notebook"
+  },
+  {
+    "id": "0007",
+    "group": "simple",
+    "prompt": "a bicycle parked beside a brick wall"
+  },
+  {
+    "id": "0008",
+    "group": "simple",
+    "prompt": "a lighthouse standing near the ocean"
+  },
+  {
+    "id": "0009",
+    "group": "simple",
+    "prompt": "a bowl of fresh strawberries"
+  },
+  {
+    "id": "0010",
+    "group": "simple",
+    "prompt": "a robot standing in a futuristic room"
+  },
+  {
+    "id": "0011",
+    "group": "attributes",
+    "prompt": "a red cube next to a blue sphere"
+  },
+  {
+    "id": "0012",
+    "group": "attributes",
+    "prompt": "a yellow car parked under a green tree"
+  },
+  {
+    "id": "0013",
+    "group": "attributes",
+    "prompt": "a black dog wearing a red scarf"
+  },
+  {
+    "id": "0014",
+    "group": "attributes",
+    "prompt": "a glass vase filled with purple flowers"
+  },
+  {
+    "id": "0015",
+    "group": "attributes",
+    "prompt": "a silver laptop beside a white coffee mug"
+  },
+  {
+    "id": "0016",
+    "group": "attributes",
+    "prompt": "a blue bird sitting on a brown branch"
+  },
+  {
+    "id": "0017",
+    "group": "attributes",
+    "prompt": "a wooden chair in front of a round table"
+  },
+  {
+    "id": "0018",
+    "group": "attributes",
+    "prompt": "a green backpack leaning against a yellow wall"
+  },
+  {
+    "id": "0019",
+    "group": "attributes",
+    "prompt": "a red umbrella and a pair of black shoes"
+  },
+  {
+    "id": "0020",
+    "group": "attributes",
+    "prompt": "a white rabbit holding a small carrot"
+  },
+  {
+    "id": "0021",
+    "group": "complex",
+    "prompt": "a cat sitting under a table while a dog sleeps beside it"
+  },
+  {
+    "id": "0022",
+    "group": "complex",
+    "prompt": "three birds flying above a small wooden house"
+  },
+  {
+    "id": "0023",
+    "group": "complex",
+    "prompt": "a red ball on the left of a blue box and a green bottle on the right"
+  },
+  {
+    "id": "0024",
+    "group": "complex",
+    "prompt": "a child holding a kite in a field with mountains in the background"
+  },
+  {
+    "id": "0025",
+    "group": "complex",
+    "prompt": "two robots playing chess in a laboratory"
+  },
+  {
+    "id": "0026",
+    "group": "complex",
+    "prompt": "a cup on top of a book next to a lit candle"
+  },
+  {
+    "id": "0027",
+    "group": "complex",
+    "prompt": "a fox standing behind a tree while snow falls"
+  },
+  {
+    "id": "0028",
+    "group": "complex",
+    "prompt": "a futuristic city with flying cars and neon signs at night"
+  },
+  {
+    "id": "0029",
+    "group": "complex",
+    "prompt": "a bowl of soup, a spoon, and a glass of water on a kitchen table"
+  },
+  {
+    "id": "0030",
+    "group": "complex",
+    "prompt": "a small dragon sitting on a treasure chest inside a cave"
+  },
+  {
+    "id": "0031",
+    "group": "simple",
+    "prompt": "a panda eating bamboo in a forest"
+  },
+  {
+    "id": "0032",
+    "group": "simple",
+    "prompt": "a wooden cabin beside a river"
+  },
+  {
+    "id": "0033",
+    "group": "simple",
+    "prompt": "a camera placed on a stone bench"
+  },
+  {
+    "id": "0034",
+    "group": "simple",
+    "prompt": "a sunflower field under a clear blue sky"
+  },
+  {
+    "id": "0035",
+    "group": "simple",
+    "prompt": "a train passing through a countryside station"
+  },
+  {
+    "id": "0036",
+    "group": "attributes",
+    "prompt": "a pink teapot beside a plate of cookies"
+  },
+  {
+    "id": "0037",
+    "group": "attributes",
+    "prompt": "a gray elephant wearing a blue blanket"
+  },
+  {
+    "id": "0038",
+    "group": "attributes",
+    "prompt": "a golden crown on a red velvet pillow"
+  },
+  {
+    "id": "0039",
+    "group": "attributes",
+    "prompt": "a green frog sitting on a yellow leaf"
+  },
+  {
+    "id": "0040",
+    "group": "attributes",
+    "prompt": "a black camera next to a brown leather bag"
+  },
+  {
+    "id": "0041",
+    "group": "complex",
+    "prompt": "a blue book under a red cup on a white desk"
+  },
+  {
+    "id": "0042",
+    "group": "complex",
+    "prompt": "a dog sitting to the left of a bicycle near a city street"
+  },
+  {
+    "id": "0043",
+    "group": "complex",
+    "prompt": "two cats looking at a fish bowl on a kitchen counter"
+  },
+  {
+    "id": "0044",
+    "group": "complex",
+    "prompt": "a red car in front of a blue house with a tree behind it"
+  },
+  {
+    "id": "0045",
+    "group": "complex",
+    "prompt": "a knight holding a shield while standing beside a white horse"
+  },
+  {
+    "id": "0046",
+    "group": "complex",
+    "prompt": "three candles on a table with a mirror behind them"
+  },
+  {
+    "id": "0047",
+    "group": "complex",
+    "prompt": "a robot chef cooking soup while a cat watches from a chair"
+  },
+  {
+    "id": "0048",
+    "group": "complex",
+    "prompt": "a small airplane flying above a bridge over a river"
+  },
+  {
+    "id": "0049",
+    "group": "complex",
+    "prompt": "a teddy bear between two gift boxes under a christmas tree"
+  },
+  {
+    "id": "0050",
+    "group": "complex",
+    "prompt": "a wizard standing in front of a castle while holding a glowing staff"
+  },
+  {
+    "id": "0051",
+    "group": "simple",
+    "prompt": "a green pear on a ceramic plate"
+  },
+  {
+    "id": "0052",
+    "group": "simple",
+    "prompt": "a wooden rowboat resting beside a quiet lake"
+  },
+  {
+    "id": "0053",
+    "group": "simple",
+    "prompt": "a white cat sitting on a chair"
+  },
+  {
+    "id": "0054",
+    "group": "simple",
+    "prompt": "a yellow flower in a glass vase"
+  },
+  {
+    "id": "0055",
+    "group": "simple",
+    "prompt": "a mountain under a clear blue sky"
+  },
+  {
+    "id": "0056",
+    "group": "simple",
+    "prompt": "a cup of coffee on a desk"
+  },
+  {
+    "id": "0057",
+    "group": "simple",
+    "prompt": "a bicycle parked beside a wall"
+  },
+  {
+    "id": "0058",
+    "group": "simple",
+    "prompt": "a dog running on the beach"
+  },
+  {
+    "id": "0059",
+    "group": "simple",
+    "prompt": "a wooden bridge over a small river"
+  },
+  {
+    "id": "0060",
+    "group": "simple",
+    "prompt": "a candle burning in a dark room"
+  },
+  {
+    "id": "0061",
+    "group": "attributes",
+    "prompt": "a shiny red sports car parked on a wet street at night"
+  },
+  {
+    "id": "0062",
+    "group": "attributes",
+    "prompt": "a fluffy white dog wearing a blue collar in a sunny garden"
+  },
+  {
+    "id": "0063",
+    "group": "attributes",
+    "prompt": "a vintage leather suitcase with brass buckles on a train platform"
+  },
+  {
+    "id": "0064",
+    "group": "attributes",
+    "prompt": "a green ceramic teapot with floral patterns on a kitchen counter"
+  },
+  {
+    "id": "0065",
+    "group": "attributes",
+    "prompt": "a silver robot holding a small yellow umbrella in the rain"
+  },
+  {
+    "id": "0066",
+    "group": "attributes",
+    "prompt": "a black wooden chair with a red cushion beside a window"
+  },
+  {
+    "id": "0067",
+    "group": "attributes",
+    "prompt": "a golden crown decorated with blue gemstones on a velvet pillow"
+  },
+  {
+    "id": "0068",
+    "group": "attributes",
+    "prompt": "a glass bottle filled with glowing purple liquid on a stone shelf"
+  },
+  {
+    "id": "0069",
+    "group": "attributes",
+    "prompt": "a cute orange fox wearing a green scarf in a snowy forest"
+  },
+  {
+    "id": "0070",
+    "group": "attributes",
+    "prompt": "a modern white house with large windows beside a swimming pool"
+  },
+  {
+    "id": "0071",
+    "group": "attributes",
+    "prompt": "a blue butterfly resting on a pink flower in soft sunlight"
+  },
+  {
+    "id": "0072",
+    "group": "attributes",
+    "prompt": "a rusty old motorcycle parked in front of a brick wall"
+  },
+  {
+    "id": "0073",
+    "group": "attributes",
+    "prompt": "a crystal chandelier hanging in an elegant dining room"
+  },
+  {
+    "id": "0074",
+    "group": "attributes",
+    "prompt": "a small wooden cabin with warm lights in a dark pine forest"
+  },
+  {
+    "id": "0075",
+    "group": "attributes",
+    "prompt": "a colorful parrot sitting on a metal perch inside a bright room"
+  },
+  {
+    "id": "0076",
+    "group": "complex",
+    "prompt": "a young astronaut sitting on a rocky cliff, looking at a distant earth in the night sky, with a glowing helmet beside them"
+  },
+  {
+    "id": "0077",
+    "group": "complex",
+    "prompt": "a medieval marketplace filled with merchants, colorful fabric stalls, horses, and villagers walking under warm afternoon sunlight"
+  },
+  {
+    "id": "0078",
+    "group": "complex",
+    "prompt": "a futuristic city street at night with neon signs, flying vehicles, rain reflections, and pedestrians carrying transparent umbrellas"
+  },
+  {
+    "id": "0079",
+    "group": "complex",
+    "prompt": "a wooden dining table covered with fruit, candles, ceramic plates, and a vase of flowers inside a cozy farmhouse kitchen"
+  },
+  {
+    "id": "0080",
+    "group": "complex",
+    "prompt": "a dragon sleeping beside a pile of gold coins inside a dark cave, with sunlight entering through a narrow opening"
+  },
+  {
+    "id": "0081",
+    "group": "complex",
+    "prompt": "a small robot gardener watering red tulips in a greenhouse filled with hanging plants and glass walls"
+  },
+  {
+    "id": "0082",
+    "group": "complex",
+    "prompt": "a child wearing a yellow raincoat jumping over puddles on a city sidewalk while cars pass in the background"
+  },
+  {
+    "id": "0083",
+    "group": "complex",
+    "prompt": "a fantasy castle built on top of a floating island, surrounded by waterfalls, clouds, and birds flying in the distance"
+  },
+  {
+    "id": "0084",
+    "group": "complex",
+    "prompt": "a chef preparing noodles in a busy street food stall with steam rising, lanterns hanging above, and customers waiting nearby"
+  },
+  {
+    "id": "0085",
+    "group": "complex",
+    "prompt": "a library with tall bookshelves, a spiral staircase, warm lamps, and a black cat sleeping on an open book"
+  },
+  {
+    "id": "0086",
+    "group": "complex",
+    "prompt": "a polar bear standing on a small piece of ice under an orange sunset, with mountains and ocean waves in the background"
+  },
+  {
+    "id": "0087",
+    "group": "complex",
+    "prompt": "a cyberpunk detective standing in a narrow alley, wearing a long coat, surrounded by neon lights and holographic advertisements"
+  },
+  {
+    "id": "0088",
+    "group": "complex",
+    "prompt": "a picnic scene in a green park with a red blanket, sandwiches, apples, a guitar, and two bicycles leaning against a tree"
+  },
+  {
+    "id": "0089",
+    "group": "complex",
+    "prompt": "a large whale swimming through the sky above a quiet village, with clouds below and people looking up in surprise"
+  },
+  {
+    "id": "0090",
+    "group": "complex",
+    "prompt": "a detailed steampunk train station with brass pipes, large clocks, steam clouds, and passengers carrying vintage luggage"
+  },
+  {
+    "id": "0091",
+    "group": "complex",
+    "prompt": "a girl reading a book under a glowing tree in a magical forest filled with fireflies and mushrooms"
+  },
+  {
+    "id": "0092",
+    "group": "complex",
+    "prompt": "a blue vintage car driving along a coastal road, with cliffs on one side and a bright ocean on the other"
+  },
+  {
+    "id": "0093",
+    "group": "complex",
+    "prompt": "a japanese tea room with tatami mats, sliding doors, a low wooden table, and cherry blossoms visible outside"
+  },
+  {
+    "id": "0094",
+    "group": "complex",
+    "prompt": "a knight in silver armor standing in a ruined courtyard, holding a glowing sword while storm clouds gather overhead"
+  },
+  {
+    "id": "0095",
+    "group": "complex",
+    "prompt": "a colorful hot air balloon festival over a valley, with dozens of balloons floating above green hills and a river"
+  },
+  {
+    "id": "0096",
+    "group": "complex",
+    "prompt": "a cat wearing round glasses sitting at a wooden desk, writing with a feather pen beside stacks of old books"
+  },
+  {
+    "id": "0097",
+    "group": "complex",
+    "prompt": "a deep sea laboratory with glowing control panels, large windows, fish swimming outside, and a diver approaching the entrance"
+  },
+  {
+    "id": "0098",
+    "group": "complex",
+    "prompt": "a snowy mountain village at night with warm lights in the windows, smoke rising from chimneys, and stars above"
+  },
+  {
+    "id": "0099",
+    "group": "complex",
+    "prompt": "a surreal desert landscape with giant hourglasses, floating rocks, a lone traveler, and a purple sky"
+  },
+  {
+    "id": "0100",
+    "group": "complex",
+    "prompt": "a busy airport terminal with travelers pulling suitcases, large windows, departure boards, and airplanes visible outside"
+  }
+]

@@ -14,7 +14,7 @@ def run_experiment(
     config_name: str,
     storage_root: str | Path | None = None,
     prompt_limit: int | None = None,
-    best_of_n: int | None = 8,
+    best_of_n: int | None = 4,
 ):
     """
     Run a full BND experiment.
